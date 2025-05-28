@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-HisApplication<his>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "edu.fra.uas.his.HisApplication",
+            "projectName": "his",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
