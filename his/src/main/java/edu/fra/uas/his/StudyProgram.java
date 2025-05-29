@@ -62,8 +62,8 @@ public class StudyProgram {
 
     @Override
     public String toString() {
-        return "StudyProgram: " + programName + ", startingDate=" + startingDate + ", totalCreditPoints="
-                + totalCreditPoints + ", moduleList=" + moduleList + "]";
+        return programName + "\n Started at : " + startingDate + "\n Total CP : "
+                + totalCreditPoints + "\n Modules passed : " + moduleList;
     }
 
 }

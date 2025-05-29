@@ -2,6 +2,8 @@ package edu.fra.uas.his;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +12,19 @@ public class AuthenticationService {
 
     @Autowired
     private StudentRepository studentRepository;
+    private static final Logger log = LoggerFactory.getLogger("AuthenticationService");
 
-    public String authenticateUser(Integer studId, String password) {
-        String message;
+    public boolean authenticateUser(Integer studId, String password) {
+        boolean isValid = false;
         Student authenticatedStudent = studentRepository.get(studId);
         if (password == authenticatedStudent.getPassword()) {
-            message = "Welcome " + authenticatedStudent.getFirstName() + " " + authenticatedStudent.getLastName();
+            isValid = true;
+            log.debug("--> User " + authenticatedStudent.getFirstName() + " has been authenticated successfully");
         } else {
-            message = "A User with ID: " + studId + " and the entered password could not be found";
+            log.debug("--> Something went wrong with the authentication for the student "
+                    + authenticatedStudent.getFirstName());
         }
-        return message;
+        return isValid;
     }
 
     public String displayGrades(Integer studId, String programName) {
