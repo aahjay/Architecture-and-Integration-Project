@@ -1,9 +1,11 @@
 package edu.fra.uas.his;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Student {
+public class Student implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String firstName;
     private String lastName;
     private String password;

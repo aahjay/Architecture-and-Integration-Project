@@ -7,7 +7,7 @@ public class StudyProgram {
     private String programName;
     private LocalDate startingDate;
     private int totalCreditPoints;
-    private static int cpSum = 0;
+    private int cpSum = 0;
     private ArrayList<StudyModule> moduleList;
 
     public StudyProgram(String programName, LocalDate startingDate, ArrayList<StudyModule> moduleList) {
@@ -40,12 +40,8 @@ public class StudyProgram {
         this.totalCreditPoints = totalCreditPoints;
     }
 
-    public static int getCpSum() {
+    public int getCpSum() {
         return cpSum;
-    }
-
-    public static void setCpSum(int cpSum) {
-        StudyProgram.cpSum = cpSum;
     }
 
     public void setModuleList(ArrayList<StudyModule> moduleList) {
