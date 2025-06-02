@@ -1,11 +1,11 @@
-package edu.fra.uas.his;
+package edu.fra.uas.peregos.model;
 
-public class StudyModule {
+public class StudyModuleDTO {
     private int cp;
     private String moduleName;
     private double grade;
 
-    public StudyModule(int cp, String moduleName, double grade) {
+    public StudyModuleDTO(int cp, String moduleName, double grade) {
         this.cp = cp;
         this.moduleName = moduleName;
         this.grade = grade;

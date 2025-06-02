@@ -86,9 +86,10 @@ public class Student implements Serializable {
 
     @Override
     public String toString() {
-        return "Student [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", currentSemester="
-                + currentSemester + ", dateOfBirth=" + dateOfBirth + ", studentID=" + studentID + ", studyProgram="
-                + studyPrograms + "]";
+        return firstName + "\n lastName : " + lastName + "\n email : " + email + "\n currentSemester : "
+                + currentSemester + "\n dateOfBirth : " + dateOfBirth + "\n studentID : " + studentID
+                + "\n Study Programs : "
+                + studyPrograms;
     }
 
     public String getPassword() {

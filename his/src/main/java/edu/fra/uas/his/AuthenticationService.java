@@ -14,7 +14,7 @@ public class AuthenticationService {
     private StudentRepository studentRepository;
     private static final Logger log = LoggerFactory.getLogger("AuthenticationService");
 
-    public boolean authenticateUser(Integer studId, String password) {
+    public boolean authenticateUser(Integer studId, String password) throws NullPointerException {
         boolean isValid = false;
         Student authenticatedStudent = studentRepository.get(studId);
         if (password == authenticatedStudent.getPassword()) {

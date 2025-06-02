@@ -33,13 +33,23 @@ public class HisApplication implements CommandLineRunner {
 			Integer studentId = input.nextInt();
 			System.out.println("Password : ");
 			String password = input.next();
-			isValid = authService.authenticateUser(studentId, password);
-			if (isValid = false) {
-				System.out.println("Invalid Password or StudentId. Please try again");
-			} else {
-				System.out.println("Welcome " + studentId + " !");
-				System.out.println(displayGradesForProgram(studentId, input));
-				isValid = false;
+			try {
+				isValid = authService.authenticateUser(studentId, password);
+				if (isValid = false) {
+					System.out.println("Invalid Password or StudentId. Please try again");
+				} else {
+					System.out.println("Welcome " + studentId + " !");
+					System.out.println(displayGradesForProgram(studentId, input));
+					isValid = false;
+				}
+			} catch (NullPointerException e) {
+				log.error("An error occurred during authentication: {}", e.getMessage());
+				System.out.println("An error occurred. Please try again.");
+				isValid = true; // Continue the loop to allow retry
+			} catch (Exception e) {
+				log.error("An unexpected error occurred: {}", e.getMessage());
+				System.out.println("An unexpected error occurred. Please try again.");
+				isValid = true; // Continue the loop to allow retry
 			}
 		} while (isValid == true);
 		input.close();
