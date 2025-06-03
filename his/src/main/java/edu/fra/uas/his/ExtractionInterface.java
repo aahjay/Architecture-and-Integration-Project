@@ -23,9 +23,8 @@ public class ExtractionInterface {
         log.info("Received HIS request for student ID: {}", hisRequest.getStudentId());
         Student student = studentRepository.get(hisRequest.getStudentId());
         if (student != null) {
-            String response = student.toString();
-            log.info("Sending response for student ID {}: {}", student.getFirstName(), response);
-            rabbitTemplate.convertAndSend("his.exchange", "his.response", response);
+            log.info("Sending response for student ID {}: {}", student.getFirstName(), student.getStudentID());
+            rabbitTemplate.convertAndSend("his.exchange", "his.response", student);
             log.info("Student object sent successfully to his.response.queue");
         } else {
             log.warn("No student found with ID: {}", hisRequest.getStudentId());
