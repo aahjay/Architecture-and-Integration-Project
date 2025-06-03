@@ -1,4 +1,4 @@
-package edu.fra.uas.peregos.model;
+package edu.fra.uas.wyseflow.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ public class StudyProgramDTO {
     private String programName;
     private LocalDate startingDate;
     private int totalCreditPoints;
+    private int cpSum = 0;
     private ArrayList<StudyModuleDTO> moduleList;
 
     public LocalDate getStartingDate() {
@@ -30,7 +31,7 @@ public class StudyProgramDTO {
     }
 
     public int getCpSum() {
-        return totalCreditPoints;
+        return cpSum;
     }
 
     public void setModuleList(ArrayList<StudyModuleDTO> moduleList) {

@@ -1,4 +1,4 @@
-package edu.fra.uas.peregos.model;
+package edu.fra.uas.wyseflow.model;
 
 public class StudyModuleDTO {
     private int cp;

@@ -42,8 +42,11 @@ public class PeregosInterface {
     public void recieveStudentInfo(PeregosStudent student) {
         if (student != null) {
             log.info("Received student info: " + student);
-            PeregosStudent studentInfo = new PeregosStudent(student.getFirstName(), student.getLastName(),
-                    student.getStudentID(), student.getStudyPrograms());
+            PeregosStudent studentInfo = new PeregosStudent();
+            studentInfo.setFirstName(student.getFirstName());
+            studentInfo.setLastName(student.getLastName());
+            studentInfo.setStudentID(student.getStudentID());
+            studentInfo.setStudyProgram(student.getStudyPrograms());
             log.info("Student Info found!");
             studentInfo.toString();
         } else {
