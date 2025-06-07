@@ -47,10 +47,10 @@ public class WyseFlowInterface {
             WyseFlowStudent studentInfo = new WyseFlowStudent();
             studentInfo.setFirstName(student.getFirstName());
             studentInfo.setLastName(student.getLastName());
-            studentInfo.setStudentID(student.getStudentID());
+            studentInfo.setStudentID(student.getStudentId());
             studentInfo.setStudyProgram(student.getStudyPrograms());
             log.info("Student Info found!");
-            wyseFlowRepository.put(student.getStudentID(), studentInfo);
+            wyseFlowRepository.put(student.getStudentId(), studentInfo);
         } else {
             log.debug("Something is wrong, student info not found!");
             System.out.println("Something is wrong, student info not found!");

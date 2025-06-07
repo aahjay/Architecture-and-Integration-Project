@@ -9,7 +9,7 @@ public class WyseFlowStudent {
     private String email;
     private int currentSemester;
     private LocalDate dateOfBirth;
-    private int studentID;
+    private Integer studentId;
     private ArrayList<StudyProgramDTO> studyPrograms;
 
     public String getFirstName() {
@@ -52,12 +52,12 @@ public class WyseFlowStudent {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public int getStudentID() {
-        return studentID;
+    public int getStudentId() {
+        return studentId;
     }
 
-    public void setStudentID(int studentID) {
-        this.studentID = studentID;
+    public void setStudentID(int studentId) {
+        this.studentId = studentId;
     }
 
     public ArrayList<StudyProgramDTO> getStudyPrograms() {
@@ -71,7 +71,7 @@ public class WyseFlowStudent {
     @Override
     public String toString() {
         return firstName + "\n lastName : " + lastName + "\n email : " + email + "\n currentSemester : "
-                + currentSemester + "\n dateOfBirth : " + dateOfBirth + "\n studentID : " + studentID
+                + currentSemester + "\n dateOfBirth : " + dateOfBirth + "\n studentID : " + studentId
                 + "\n Study Programs : "
                 + studyPrograms;
     }

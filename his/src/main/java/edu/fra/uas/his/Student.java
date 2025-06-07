@@ -6,25 +6,25 @@ import java.util.ArrayList;
 
 public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
+    private Integer studentId;
     private String firstName;
     private String lastName;
     private String password;
     private String email;
     private int currentSemester;
     private LocalDate dateOfBirth;
-    private int studentID;
     private ArrayList<StudyProgram> studyPrograms;
 
     public Student(String firstName, String password, String lastName, String email, int currentSemester,
             LocalDate dateOfBirth,
-            int studentID, ArrayList<StudyProgram> studyPrograms) {
+            int studentId, ArrayList<StudyProgram> studyPrograms) {
         this.firstName = firstName;
         this.password = password;
         this.lastName = lastName;
         this.email = email;
         this.currentSemester = currentSemester;
         this.dateOfBirth = dateOfBirth;
-        this.studentID = studentID;
+        this.studentId = studentId;
         this.studyPrograms = studyPrograms;
     }
 
@@ -68,12 +68,12 @@ public class Student implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public int getStudentID() {
-        return studentID;
+    public Integer getStudentId() {
+        return studentId;
     }
 
-    public void setStudentID(int studentID) {
-        this.studentID = studentID;
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
     }
 
     public ArrayList<StudyProgram> getStudyPrograms() {
@@ -87,7 +87,7 @@ public class Student implements Serializable {
     @Override
     public String toString() {
         return firstName + "\n lastName : " + lastName + "\n email : " + email + "\n currentSemester : "
-                + currentSemester + "\n dateOfBirth : " + dateOfBirth + "\n studentID : " + studentID
+                + currentSemester + "\n dateOfBirth : " + dateOfBirth + "\n studentID : " + studentId
                 + "\n Study Programs : "
                 + studyPrograms;
     }

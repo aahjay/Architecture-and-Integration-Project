@@ -4,9 +4,15 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true) // Ignore unknown properties during deserialization
 public class StudentDTO implements Serializable {
     private static final long serialVersionUID = 1L;
+    @JsonProperty("studentId") // Maps JSON property 'studentId' to this field
     private Integer studentId;
+    // Note: using 'studentId', not 'studentID'
     private String firstName;
     private String lastName;
     private String email;

@@ -42,20 +42,19 @@ public class PeregosInterface {
     }
 
     @RabbitListener(queues = "peregos.response.queue")
-    public void recieveStudentInfo(PeregosStudent student) {
-        if (student != null) {
-            log.info("Received student info: " + student);
-            PeregosStudent studentInfo = new PeregosStudent();
-            studentInfo.setFirstName(student.getFirstName());
-            studentInfo.setLastName(student.getLastName());
-            studentInfo.setStudentID(student.getStudentID());
-            studentInfo.setStudyProgram(student.getStudyPrograms());
-            log.info("Student Info found!");
-            peregosRepository.put(student.getStudentID(), studentInfo);
-        } else {
-            log.debug("Something is wrong, student info not found!");
-            System.out.println("Something is wrong, student info not found!");
+    public void receiveStudentInfo(PeregosStudent student) {
+        if (student.getStudentId() == null) {
+            log.error("Received student with null ID");
+            return;
         }
+        log.info("Received student info: " + student);
+        PeregosStudent studentInfo = new PeregosStudent();
+        studentInfo.setFirstName(student.getFirstName());
+        studentInfo.setLastName(student.getLastName());
+        studentInfo.setStudentId(student.getStudentId());
+        studentInfo.setStudyProgram(student.getStudyPrograms());
+        log.info("Student Info found!");
+        peregosRepository.put(student.getStudentId(), student);
     }
 
 }

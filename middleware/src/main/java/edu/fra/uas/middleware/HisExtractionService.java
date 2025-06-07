@@ -22,10 +22,17 @@ public class HisExtractionService {
 
     @RabbitListener(queues = "his.response.queue")
     public void handleHisResponse(StudentDTO student, Message message) {
+        log.debug("Raw message payload: {}", new String(message.getBody()));
+        log.debug("Message properties: {}", message.getMessageProperties());
         if (student == null) {
             log.debug("No HIS data found for the requested student.");
             return;
         }
+        // Add debug logging for student object
+        log.debug("Received student object: {}", student);
+        log.debug("Student ID value: {}, type: {}",
+                student.getStudentId(),
+                student.getStudentId() != null ? student.getStudentId().getClass() : "null");
         log.info("Received HIS response for student ID: {}", student.getStudentId());
         log.info("HIS data found for student ID: {}, Name: {} {}", student.getStudentId(), student.getFirstName(),
                 student.getLastName());
@@ -49,32 +56,38 @@ public class HisExtractionService {
     }
 
     public void sendToPeregos(StudentDTO student) {
-        log.info("Sending HIS data to Peregos for student ID: {}", student.getStudentId());
+        log.debug("Original student before conversion: {}", student);
+        // Verify the student ID before creating new DTO
+        if (student.getStudentId() == null) {
+            log.error("Student ID is null in original DTO");
+            return;
+        }
         StudentDTO peregosStudent = new StudentDTO();
-        peregosStudent.setFirstName(student.getFirstName());
-        peregosStudent.setLastName(student.getFirstName());
         peregosStudent.setStudentId(student.getStudentId());
+        peregosStudent.setFirstName(student.getFirstName());
+        peregosStudent.setLastName(student.getLastName());
         peregosStudent.setStudyPrograms(student.getStudyPrograms());
         try {
-            rabbitTemplate.convertAndSend("peregos.exchange", "peregos.response.queue", peregosStudent);
-            log.info("HIS data sent to Peregos for student ID: {}", student.getStudentId());
+            rabbitTemplate.convertAndSend("peregos.exchange", "peregos.response", peregosStudent);
+            log.debug("Message sent to RabbitMQ for student ID: {}", peregosStudent.getStudentId());
         } catch (Exception e) {
-            log.error("Failed to send HIS data to Peregos for student ID: {}", student.getStudentId(), e);
+            log.error("Failed to send data. Original ID: {}, Error: {}",
+                    student.getStudentId(), e.getMessage(), e);
         }
     }
 
     public void sendToWyseFlow(StudentDTO student) {
         log.info("Sending HIS data to WyseFlow for student ID: {}", student.getStudentId());
         StudentDTO wyseflowStudent = new StudentDTO();
+        wyseflowStudent.setStudentId(student.getStudentId());
         wyseflowStudent.setFirstName(student.getFirstName());
         wyseflowStudent.setLastName(student.getLastName());
-        wyseflowStudent.setStudentId(student.getStudentId());
         wyseflowStudent.setEmail(student.getEmail());
         wyseflowStudent.setDateOfBirth(student.getDateOfBirth());
         wyseflowStudent.setStudyPrograms(student.getStudyPrograms());
         wyseflowStudent.setCurrentSemester(student.getCurrentSemester());
         try {
-            rabbitTemplate.convertAndSend("wyseflow.exchange", "wyseflow.response.queue", wyseflowStudent);
+            rabbitTemplate.convertAndSend("wyseflow.exchange", "wyseflow.response", wyseflowStudent);
             log.info("HIS data sent to WyseFlow for student ID: {}", student.getStudentId());
         } catch (Exception e) {
             log.error("Failed to send HIS data to WyseFlow for student ID: {}", student.getStudentId(), e);

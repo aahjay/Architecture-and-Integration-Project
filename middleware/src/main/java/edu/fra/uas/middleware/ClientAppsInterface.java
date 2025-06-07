@@ -37,7 +37,7 @@ public class ClientAppsInterface {
             MessageProperties properties = new MessageProperties();
             properties.setCorrelationId(correlationId);
             Message hisMessage = rabbitTemplate.getMessageConverter().toMessage(hisRequest, properties);
-            rabbitTemplate.send("his.exchange", "his.request.queue", hisMessage);
+            rabbitTemplate.send("his.exchange", "his.request", hisMessage);
             log.info("Sent HIS data request for student ID: {}", studentRequest.getStudentId());
         } catch (Exception e) {
             log.error("Failed to send HIS data request for student ID: {}", studentRequest.getStudentId(), e);

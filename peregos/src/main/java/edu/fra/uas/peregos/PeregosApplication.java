@@ -34,13 +34,13 @@ public class PeregosApplication implements CommandLineRunner {
 		peregosInterface.requestStudentInfo(studId);
 		log.info("Request sent for Student ID: {}", studId);
 		System.out.println("Checking data...");
-		Thread.sleep(5000); // Simulate waiting for response
+		Thread.sleep(10000); // Simulate waiting for response
 		PeregosStudent student = peregosRepository.get(studId);
 		if (student != null) {
 			System.out.println("Student Info found!");
 			System.out.println("First Name: " + student.getFirstName());
 			System.out.println("Last Name: " + student.getLastName());
-			System.out.println("Student ID: " + student.getStudentID());
+			System.out.println("Student ID: " + student.getStudentId());
 			System.out.println("Study Programs: " + student.getStudyPrograms());
 		} else {
 			System.out.println("Something is wrong, student info not found!");

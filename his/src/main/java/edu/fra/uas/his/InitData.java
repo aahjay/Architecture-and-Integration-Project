@@ -162,9 +162,9 @@ public class InitData {
                  * }
                  * }
                  */
-                studentRepository.put(Nico.getStudentID(), Nico);
-                studentRepository.put(Salah.getStudentID(), Salah);
-                studentRepository.put(Manraj.getStudentID(), Manraj);
+                studentRepository.put(Nico.getStudentId(), Nico);
+                studentRepository.put(Salah.getStudentId(), Salah);
+                studentRepository.put(Manraj.getStudentId(), Manraj);
 
                 log.info("### Data initialized ###");
         }

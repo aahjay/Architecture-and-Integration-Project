@@ -25,7 +25,7 @@ public class ExtractionInterface {
         log.info("Received HIS request for student ID: {}", hisRequest.getStudentId());
         Student student = studentRepository.get(hisRequest.getStudentId());
         if (student != null) {
-            log.info("Sending response for student ID {}: {}", student.getFirstName(), student.getStudentID());
+            log.info("Sending response for student ID {}: {}", student.getFirstName(), student.getStudentId());
             try {
                 MessageProperties properties = new MessageProperties();
                 properties.setCorrelationId(message.getMessageProperties().getCorrelationId());

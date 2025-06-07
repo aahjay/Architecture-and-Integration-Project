@@ -8,7 +8,8 @@
             "mainClass": "edu.fra.uas.his.HisApplication",
             "projectName": "his",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=54050 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=his"
         },
         {
             "type": "java",
@@ -18,7 +19,8 @@
             "mainClass": "edu.fra.uas.peregos.PeregosApplication",
             "projectName": "peregos",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=54156 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=peregos"
         },
         {
             "type": "java",
@@ -27,6 +29,17 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "edu.fra.uas.middleware.MiddlewareApplication",
             "projectName": "middleware",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=54147 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=middleware"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-WyseflowApplication<wyseflow>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "edu.fra.uas.wyseflow.WyseflowApplication",
+            "projectName": "wyseflow",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
