@@ -9,6 +9,26 @@
             "projectName": "his",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PeregosApplication<peregos>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "edu.fra.uas.peregos.PeregosApplication",
+            "projectName": "peregos",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MiddlewareApplication<middleware>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "edu.fra.uas.middleware.MiddlewareApplication",
+            "projectName": "middleware",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

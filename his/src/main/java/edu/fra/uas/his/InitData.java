@@ -72,7 +72,7 @@ public class InitData {
                 ibisModules2.add(new StudyModule(5, "Marketing", 1.7));
                 ibisModules2.add(new StudyModule(5, "Accounting", 2.7));
                 ibisModules2.add(new StudyModule(5, "Mathematics", 1.3));
-                ibisModules2.add(new StudyModule(6, "Databases", 1.3));
+                ibisModules2.add(new StudyModule(5, "Databases", 1.3));
 
                 ArrayList<StudyModule> wingModules = new ArrayList<>();
                 wingModules.add(new StudyModule(5, "Physics1", 2.3));

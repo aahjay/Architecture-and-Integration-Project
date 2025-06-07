@@ -9,15 +9,19 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 import edu.fra.uas.wyseflow.model.WyseFlowStudent;
 
+@Service
 public class WyseFlowInterface {
 
     private static final Logger log = LoggerFactory.getLogger(WyseFlowInterface.class);
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private WyseFlowRepository wyseFlowRepository;
 
     public void requestStudentInfo(Integer studentId) {
         log.info("Requesting student info for Student ID: " + studentId);
@@ -26,10 +30,10 @@ public class WyseFlowInterface {
             request.setStudentId(studentId);
             String correlationId = UUID.randomUUID().toString();
             MessageProperties props = new MessageProperties();
-            props.setReplyTo("clientA.response.queue");
+            props.setReplyTo("wyseflow.response.queue");
             props.setCorrelationId(correlationId);
             Message message = rabbitTemplate.getMessageConverter().toMessage(request, props);
-            rabbitTemplate.send("student.exchange", "student.request", message);
+            rabbitTemplate.send("wyseflow.exchange", "wyseflow.request", message);
             log.info("Request sent successfully for Student ID: " + studentId);
         } catch (Exception e) {
             log.debug("Failed to send request for Student ID: " + studentId + ". Error: " + e.getMessage());
@@ -46,7 +50,7 @@ public class WyseFlowInterface {
             studentInfo.setStudentID(student.getStudentID());
             studentInfo.setStudyProgram(student.getStudyPrograms());
             log.info("Student Info found!");
-            studentInfo.toString();
+            wyseFlowRepository.put(student.getStudentID(), studentInfo);
         } else {
             log.debug("Something is wrong, student info not found!");
             System.out.println("Something is wrong, student info not found!");

@@ -1,10 +1,10 @@
-package edu.fra.uas.his;
+package edu.fra.uas.middleware.model;
 
 import java.io.Serializable;
 
-public class HisRequest implements Serializable {
+public class HisRequestDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    Integer studentId;
+    private Integer studentId;
 
     public Integer getStudentId() {
         return studentId;
@@ -13,5 +13,4 @@ public class HisRequest implements Serializable {
     public void setStudentId(Integer studentId) {
         this.studentId = studentId;
     }
-
 }
