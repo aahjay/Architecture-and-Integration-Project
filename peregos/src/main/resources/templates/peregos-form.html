@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Peregos Help Request</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <div class="container mt-5">
+        <!-- Step 1: Student ID Input -->
+        <div id="step1" class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Enter Student ID</h2>
+                        <form id="studentIdForm">
+                            <div class="mb-3">
+                                <input type="number" class="form-control" id="studentId" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Continue</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Display Student Info & Program Selection -->
+        <div id="step2" class="row justify-content-center d-none">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Select Study Program</h2>
+                        <div class="student-info mb-4">
+                            <h4>Student Information</h4>
+                            <p><strong>Name:</strong> <span id="studentName"></span></p>
+                            <p><strong>Student ID:</strong> <span id="displayStudentId"></span></p>
+                        </div>
+                        <div class="program-selection">
+                            <h4>Available Programs</h4>
+                            <div id="programList" class="list-group mb-3">
+                                <!-- Programs will be inserted here -->
+                            </div>
+                            <button onclick="proceedToStep3()" class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Help Request Form -->
+        <div id="step3" class="row justify-content-center d-none">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Submit Help Request</h2>
+                        <form id="helpRequestForm">
+                            <div class="mb-3">
+                                <label class="form-label">Selected Program</label>
+                                <input type="text" id="selectedProgram" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Request Details</label>
+                                <textarea class="form-control" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Request</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStudent = null; // Store student data globally
+
+        document.getElementById('studentIdForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const studentId = document.getElementById('studentId').value;
+
+            try {
+                const response = await fetch(`/peregos/student/${studentId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Student not found');
+                }
+
+                currentStudent = await response.json();
+                displayStudentInfo(currentStudent);
+                showStep(2);
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+
+        function displayStudentInfo(student) {
+            document.getElementById('studentName').textContent =
+                `${student.firstName} ${student.lastName}`;
+            document.getElementById('displayStudentId').textContent = student.studentId;
+
+            const programList = document.getElementById('programList');
+            programList.innerHTML = '';
+
+            student.studyPrograms.forEach(program => {
+                const button = document.createElement('button');
+                button.className = 'list-group-item list-group-item-action';
+                button.textContent = program.programName;
+                button.onclick = () => selectProgram(program.programName);
+                programList.appendChild(button);
+            });
+        }
+
+        function selectProgram(programName) {
+            document.getElementById('selectedProgram').value = programName;
+        }
+
+        function proceedToStep3() {
+            if (!document.getElementById('selectedProgram').value) {
+                alert('Please select a study program first');
+                return;
+            }
+            showStep(3);
+        }
+
+        // Add help request form submission handler
+        document.getElementById('helpRequestForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const requestDetails = e.target.querySelector('textarea').value;
+            const selectedProgram = document.getElementById('selectedProgram').value;
+
+            try {
+                const response = await fetch('/peregos/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        studentId: currentStudent.studentId,
+                        programName: selectedProgram,
+                        requestDetails: requestDetails
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to submit request');
+                }
+
+                alert('Help request submitted successfully!');
+                window.location.reload(); // Reset form
+            } catch (error) {
+                alert('Error submitting request: ' + error.message);
+            }
+        });
+
+        function showStep(step) {
+            document.querySelectorAll('[id^="step"]').forEach(el => {
+                el.classList.add('d-none');
+            });
+            document.getElementById(`step${step}`).classList.remove('d-none');
+        }
+    </script>
+</body>
+
+</html>
