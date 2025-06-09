@@ -12,29 +12,39 @@ public class AuthenticationService {
 
     @Autowired
     private StudentRepository studentRepository;
-    private static final Logger log = LoggerFactory.getLogger("AuthenticationService");
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
 
-    public boolean authenticateUser(Integer studId, String password) throws NullPointerException {
-        boolean isValid = false;
-        Student authenticatedStudent = studentRepository.get(studId);
-        if (password == authenticatedStudent.getPassword()) {
-            isValid = true;
-            log.debug("--> User " + authenticatedStudent.getFirstName() + " has been authenticated successfully");
-        } else {
-            log.debug("--> Something went wrong with the authentication for the student "
-                    + authenticatedStudent.getFirstName());
+    public boolean authenticateUser(Integer studId, String password) {
+        try {
+            Student authenticatedStudent = studentRepository.get(studId);
+            if (authenticatedStudent == null) {
+                log.warn("No student found with ID: {}", studId);
+                return false;
+            }
+            boolean isValid = password.equals(authenticatedStudent.getPassword());
+            if (isValid) {
+                log.info("User {} authenticated successfully", authenticatedStudent.getFirstName());
+            } else {
+                log.debug("Authentication failed for student {}", authenticatedStudent.getFirstName());
+            }
+            return isValid;
+        } catch (Exception e) {
+            log.error("Authentication error for student ID {}: {}", studId, e.getMessage());
+            return false;
         }
-        return isValid;
     }
 
     public String displayGrades(Integer studId, String programName) {
-        String gradeData = "";
-        ArrayList<StudyProgram> programList = studentRepository.get(studId).getStudyPrograms();
-        for (StudyProgram studyProgram : programList) {
-            if (studyProgram.getProgramName() == programName) {
-                gradeData = studyProgram.toString();
-            }
+        try {
+            ArrayList<StudyProgram> programList = studentRepository.get(studId).getStudyPrograms();
+            return programList.stream()
+                    .filter(program -> program.getProgramName().equals(programName))
+                    .findFirst()
+                    .map(StudyProgram::toString)
+                    .orElse("Program not found");
+        } catch (Exception e) {
+            log.error("Error displaying grades for student {}: {}", studId, e.getMessage());
+            return "Error retrieving grades";
         }
-        return gradeData;
     }
 }
