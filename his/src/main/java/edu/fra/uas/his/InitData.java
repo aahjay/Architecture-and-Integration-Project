@@ -24,7 +24,7 @@ public class InitData {
                 // Student data Salah
                 ArrayList<StudyModule> ibisModules1 = new ArrayList<>();
                 ibisModules1.add(new StudyModule(10, "OOP", 1.7));
-                ibisModules1.add(new StudyModule(5, "Business Administratoin", 2.3));
+                ibisModules1.add(new StudyModule(5, "Business Administration", 2.3));
                 ibisModules1.add(new StudyModule(5, "Marketing", 1.7));
                 ibisModules1.add(new StudyModule(5, "Accounting", 2.7));
                 ibisModules1.add(new StudyModule(5, "Mathematics", 2.3));
@@ -68,7 +68,7 @@ public class InitData {
                 // Student data Manraj
                 ArrayList<StudyModule> ibisModules2 = new ArrayList<>();
                 ibisModules2.add(new StudyModule(10, "OOP", 1.0));
-                ibisModules2.add(new StudyModule(5, "Business Administratoin", 3.7));
+                ibisModules2.add(new StudyModule(5, "Business Administration", 3.7));
                 ibisModules2.add(new StudyModule(5, "Marketing", 1.7));
                 ibisModules2.add(new StudyModule(5, "Accounting", 2.7));
                 ibisModules2.add(new StudyModule(5, "Mathematics", 1.3));
@@ -122,7 +122,7 @@ public class InitData {
                 // Student data Nicolas
                 ArrayList<StudyModule> ibisModules3 = new ArrayList<>();
                 ibisModules3.add(new StudyModule(10, "OOP", 1.0));
-                ibisModules3.add(new StudyModule(5, "Business Administratoin", 3.7));
+                ibisModules3.add(new StudyModule(5, "Business Administration", 3.7));
                 ibisModules3.add(new StudyModule(5, "Marketing", 1.7));
                 ibisModules3.add(new StudyModule(5, "Accounting", 2.7));
                 ibisModules3.add(new StudyModule(5, "Mathematics", 1.3));
