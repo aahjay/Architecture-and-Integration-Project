@@ -9,6 +9,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rabbitmq.client.Channel;
+
 @Service
 public class ExtractionInterface {
 
@@ -21,12 +23,14 @@ public class ExtractionInterface {
     private RabbitTemplate rabbitTemplate;
 
     @RabbitListener(queues = "his.request.queue")
-    public void handleHisRequest(HisRequest hisRequest, Message message) {
+    public void handleHisRequest(HisRequest hisRequest, Message message, Channel channel) {
         log.info("Received HIS request for student ID: {}", hisRequest.getStudentId());
         Student student = studentRepository.get(hisRequest.getStudentId());
         if (student != null) {
             log.info("Sending response for student ID {}: {}", student.getFirstName(), student.getStudentId());
             try {
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+                log.debug("Acknowledged message for student ID: {}", hisRequest.getStudentId());
                 MessageProperties properties = new MessageProperties();
                 properties.setCorrelationId(message.getMessageProperties().getCorrelationId());
                 Message responseMessage = rabbitTemplate.getMessageConverter().toMessage(student, properties);

@@ -7,6 +7,9 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.rabbitmq.client.Channel;
+
 import edu.fra.uas.middleware.model.StudentDTO;
 
 @Service
@@ -21,7 +24,7 @@ public class HisExtractionService {
     private RabbitTemplate rabbitTemplate;
 
     @RabbitListener(queues = "his.response.queue")
-    public void handleHisResponse(StudentDTO student, Message message) {
+    public void handleHisResponse(StudentDTO student, Message message, Channel channel) throws Exception {
         log.debug("Raw message payload: {}", new String(message.getBody()));
         log.debug("Message properties: {}", message.getMessageProperties());
         if (student == null) {
@@ -41,6 +44,8 @@ public class HisExtractionService {
         if (replyTo == null) {
             log.warn("No replyTo found for correlation ID: {}", correlationId);
         } else {
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            log.debug("Acknowledged message for student ID: {}", student.getStudentId());
             log.info("Sending HIS data to client app with correlation ID: {}", correlationId);
             switch (replyTo) {
                 case "peregos.response.queue":

@@ -8,6 +8,9 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.rabbitmq.client.Channel;
+
 import edu.fra.uas.middleware.model.HisRequestDTO;
 import edu.fra.uas.middleware.model.StudentRequestDTO;
 
@@ -23,7 +26,7 @@ public class ClientAppsInterface {
     private CorrelationMap correlationMap;
 
     @RabbitListener(queues = { "peregos.request.queue", "wyseflow.request.queue" })
-    public void handleClientRequest(StudentRequestDTO studentRequest, Message message) {
+    public void handleClientRequest(StudentRequestDTO studentRequest, Message message, Channel channel) {
         log.info("Handling request for student ID: {}", studentRequest.getStudentId());
         // Store the correlation ID for later use
         String correlationId = message.getMessageProperties().getCorrelationId();
@@ -38,6 +41,8 @@ public class ClientAppsInterface {
             properties.setCorrelationId(correlationId);
             Message hisMessage = rabbitTemplate.getMessageConverter().toMessage(hisRequest, properties);
             rabbitTemplate.send("his.exchange", "his.request", hisMessage);
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            log.debug("Acknowledged message for student ID: {}", studentRequest.getStudentId());
             log.info("Sent HIS data request for student ID: {}", studentRequest.getStudentId());
         } catch (Exception e) {
             log.error("Failed to send HIS data request for student ID: {}", studentRequest.getStudentId(), e);

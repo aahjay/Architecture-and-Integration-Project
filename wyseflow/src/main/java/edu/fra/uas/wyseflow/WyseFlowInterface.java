@@ -10,6 +10,9 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.rabbitmq.client.Channel;
+
 import edu.fra.uas.wyseflow.model.WyseFlowStudent;
 
 @Service
@@ -41,7 +44,7 @@ public class WyseFlowInterface {
     }
 
     @RabbitListener(queues = "wyseflow.response.queue")
-    public void recieveStudentInfo(WyseFlowStudent student) {
+    public void recieveStudentInfo(WyseFlowStudent student, Channel channel, Message message) throws Exception {
         if (student != null) {
             log.info("Received student info: " + student);
             WyseFlowStudent studentInfo = new WyseFlowStudent();
@@ -51,6 +54,8 @@ public class WyseFlowInterface {
             studentInfo.setStudyProgram(student.getStudyPrograms());
             log.info("Student Info found!");
             wyseFlowRepository.put(student.getStudentId(), studentInfo);
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            log.debug("Acknowledged message for Student ID: " + student.getStudentId());
         } else {
             log.debug("Something is wrong, student info not found!");
             System.out.println("Something is wrong, student info not found!");

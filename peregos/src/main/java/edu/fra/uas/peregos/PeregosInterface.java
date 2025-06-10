@@ -1,5 +1,6 @@
 package edu.fra.uas.peregos;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -10,6 +11,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.rabbitmq.client.Channel;
 
 import edu.fra.uas.peregos.model.PeregosStudent;
 
@@ -42,11 +45,13 @@ public class PeregosInterface {
     }
 
     @RabbitListener(queues = "peregos.response.queue")
-    public void receiveStudentInfo(PeregosStudent student) {
+    public void receiveStudentInfo(PeregosStudent student, Message message, Channel channel) throws IOException {
         if (student.getStudentId() == null) {
             log.error("Received student with null ID");
             return;
         }
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        log.debug("Acknowledged message for Student ID: " + student.getStudentId());
         log.info("Received student info: " + student);
         PeregosStudent studentInfo = new PeregosStudent();
         studentInfo.setFirstName(student.getFirstName());
