@@ -10,9 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true) // Ignore unknown properties during deserialization
 public class StudentDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    @JsonProperty("studentId") // Maps JSON property 'studentId' to this field
+    @JsonProperty("studentId")
     private Integer studentId;
-    // Note: using 'studentId', not 'studentID'
     private String firstName;
     private String lastName;
     private String email;

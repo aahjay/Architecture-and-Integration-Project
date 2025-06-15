@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class PeregosStudent {
     private String firstName;
     private String lastName;
-    private Integer studentId; // Match the field name with StudentDTO
+    private Integer studentId;
     private ArrayList<StudyProgramDTO> studyPrograms;
 
     public PeregosStudent() {
@@ -27,11 +27,11 @@ public class PeregosStudent {
         this.lastName = lastName;
     }
 
-    public Integer getStudentId() { // Note: not getStudentID()
+    public Integer getStudentId() {
         return this.studentId;
     }
 
-    public void setStudentId(Integer studentId) { // Note: not setStudentID()
+    public void setStudentId(Integer studentId) {
         this.studentId = studentId;
     }
 
